@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+  </head>
+  <body>
+    <p>
+      <h1><%= @listType %></h1>
+      <a href='/listLastUpdate'>[最終更新(<%= @lastTimeStamp %>)のみ表示]</a>
+      <a href='/listLast1Day'>[24時間以内に更新分のみ表示]</a>
+      <a href='/list'>[全て表示]</a>
+    </p>
+
+    <table class='tbl'>
+      <tr class='tbl-header'>
+        <td>タイトル</div></td>
+        <td>更新時刻</td>
+        <td>出版社</td>
+        <td>出版日</td>
+        <td>定価</td>
+        <td>販売価格</td>
+        <td>割引率</td>
+        <td>最安値</td>
+        <td>最終更新STS</td>
+      </tr>
+      <%= @content %>
+    </table>
+  </body>
+</html>

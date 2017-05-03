@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <table border="1">
+      <tr>
+        <td>タイトル</td>
+        <td>更新時刻</td>
+        <td>出版社</td>
+        <td>出版日</td>
+        <td>定価</td>
+        <td>販売価格</td>
+        <td>割引率</td>
+        <td>最終更新STS</td>
+      </tr>
+      <%= @bookInfo %>
+    </table>
+
+    <table border="1">
+      <tr>
+        <td>更新時刻</td>
+        <td>販売価格</td>
+        <td>割引率</td>
+        <td>更新STS</td>
+      </tr>
+      <%= @priceInfo %>
+    </table>
+
+  </body>
+</html>

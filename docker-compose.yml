@@ -1,0 +1,11 @@
+slist:
+  build: .
+  ports:
+    - "50080:50080"
+  environment:
+    ENV: DEV
+  volumes:
+    - ./app:/app
+    - ./data:/data
+
+
