@@ -132,10 +132,12 @@ class BookList < Hash
   def add(book)
     bookKey = "#{book.title}@#{book.maker}"
     if(self.has_key?(bookKey))then
-      print "Duplicate Book (#{bookKey})\n"
+      print "Duplicate Book (#{bookKey})\n\n"
       print book.dump,"\n\n"
-      print self[book.title].dump,"\n\n"
-      raise "Duplicate Book (#{bookKey})" 
+      print self[bookKey].dump,"\n\n"
+      # 2017.09.02 ニューディールが同一タイトル・出版社・価格で２重登録さてている
+      # 一旦、例外発生はやめておく
+#      raise "Duplicate Book (#{bookKey})" 
     end
     self[bookKey] = book
   end
