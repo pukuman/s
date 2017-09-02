@@ -18,15 +18,17 @@ def book_to_tr(mList,book)
     css = "over50p"
   end
   lowestPrice = mList.getLowestPrice(book.id)
+  lowestMark = (lowestPrice == book.price) ? "●" : ""
+  
 
   return sprintf("<tr class='%s'><td><a href='%s'>%s</a>" +
                  "</td><td>%s</td><td>%s</td><td>%s</td>" + 
                  "<td>%5d</td><td>%5d</td><td>%3.1f%%</td>" + 
-                 "<td>%5d</td><td>%s</td></tr>",
+                 "<td>%s</td><td>%s</td></tr>",
                    css,url,book.title,
                    book.timestamp,book.maker,book.release,
                    book.listPrice,book.price,book.priceOff,
-                   lowestPrice,book.sts)
+                   lowestMark,book.sts)
 end
 
 get '/' do

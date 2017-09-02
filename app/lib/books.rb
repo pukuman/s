@@ -130,8 +130,14 @@ class BookList < Hash
   end
  
   def add(book)
-    raise "Duplicate Book Title(#{book.title})" if(self.has_key?(book.title))
-    self[book.title] = book
+    bookKey = "#{book.title}@#{book.maker}"
+    if(self.has_key?(bookKey))then
+      print "Duplicate Book (#{bookKey})\n"
+      print book.dump,"\n\n"
+      print self[book.title].dump,"\n\n"
+      raise "Duplicate Book (#{bookKey})" 
+    end
+    self[bookKey] = book
   end
 
   def getTimeStamp
@@ -182,9 +188,9 @@ class BookList < Hash
 
   def grep(title: /.*/, sts: /.*/)
     grepList = BookList.new
-    self.keys.each{|t|
-      if t =~ title and self[t].sts =~ sts then
-        grepList[t] = self[t]
+    self.keys.each{|k|
+      if self[k].title =~ title and self[k].sts =~ sts then
+        grepList[k] = self[k]
       end
     }
     return grepList

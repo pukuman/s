@@ -28,6 +28,7 @@ urls = {
   'ビレッジブッックス' => 'http://www.suruga-ya.jp/search?category=70101&search_word=&restrict[]=brand=ヴィレッッジブックス&restrict[]=sale%20classified=中古',
   'ジャイブ' => 'http://www.suruga-ya.jp/search?category=70101&search_word=&restrict[]=brand=ジャイブ&restrict[]=sale%20classified=中古',
   'みすず書房' => 'http://www.suruga-ya.jp/search?category=70101&search_word=&restrict[]=brand=みすず書房&restrict[]=sale%20classified=中古',
+  '飛鳥新社' => 'http://www.suruga-ya.jp/search?category=70101&search_word=&restrict[]=brand=飛鳥新社&restrict[]=sale%20classified=中古',
 }
 #url = 'http://www.suruga-ya.jp/search?category=70101&search_word=&restrict[]=hendou=値下げ'
 
