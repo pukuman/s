@@ -18,6 +18,14 @@ def getDate(t)
   return date
 end
 
+def getSurugayaId(t)
+  id = ''
+  if ( t =~ /([A-Z0-9]+)$/ ) then
+    id = $1
+  end
+  return id
+end
+
 
 urls = {
   '小学館プロダクション' => 'http://www.suruga-ya.jp/search?category=70101&search_word=&restrict[]=brand=小学館プロダクション&restrict[]=sale%20classified=中古',
@@ -45,6 +53,7 @@ historyFile = "#{dataDir}/list.history"
 FileUtils.mkdir_p(dataDir) unless Dir.exists?(dataDir)
 system("touch #{historyFile}") unless File.exists?(historyFile)
 
+
 books = BookList.new
 urls.keys.each{|k|
   url = urls[k]
@@ -53,14 +62,28 @@ urls.keys.each{|k|
   pageCounts = 1
   while(true)
     page.search('.item').each{|item|
+      s_id    = getSurugayaId(item.search('.thum').at("a").attributes["href"].text)
       title   = item.search('.title').inner_text
-      maker   =  item.search('.maker').inner_text
+      maker   =  item.search('.brand').inner_text
       release = getDate(item.search('.release_date').inner_text)
-      price   = getPrice(item.search('.item_price').search('.price').inner_text)
-      listPrice = getPrice(item.search('.item_price').search('.price_teika').inner_text)
+#      price   = getPrice(item.search('.item_price').search('.price').inner_text)
+#      listPrice = getPrice(item.search('.item_price').search('.price_teika').inner_text)
+      price = 0
+      listPrice = 0
+      prices = item.search('.item_price').search('.price_teika')
+      prices.each{|t|
+        case t.inner_text
+        when  /定価/
+          listPrice = getPrice(t)
+        when  /中古/
+          price = getPrice(t)
+        else
+          print t,"\n"
+        end
+      }
       priceOff = (listPrice > 0) ? (listPrice-price)*100.0/listPrice : 0.0
       book = BookInfo.new()
-      book.setArray([title,timestamp,maker,release,listPrice,price,priceOff])
+      book.setArray([title,timestamp,maker,release,listPrice,price,priceOff,s_id])
       books.add(book)
     }
     break if page.search('.next').css("a")[0] == nil

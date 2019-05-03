@@ -4,12 +4,36 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
   </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script>
+  /*
+$(function(){
+  
+  alert('hello');
+  $.cookie().forEach(function(v,i,ar){
+    for(key in v){
+      alert(key + '=' + v[key]);
+    }
+    
+  });
+});
+function viewChecked(){
+};
+function changeCheck(id){
+  $.cookie(id,document.getElementById('chkid_'+id).checked);
+};
+
+  */
+  </script>
   <body>
     <p>
       <h1><%= @listType %></h1>
       <a href='/listLastUpdate'>[最終更新(<%= @lastTimeStamp %>)のみ表示]</a>
       <a href='/listLast1Day'>[24時間以内に更新分のみ表示]</a>
+      <a href='/listLowPrice'>[最安値]</a>
       <a href='/list'>[全て表示]</a>
+
     </p>
 
     <table class='tbl'>

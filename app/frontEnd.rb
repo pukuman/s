@@ -19,13 +19,14 @@ def book_to_tr(mList,book)
   end
   lowestPrice = mList.getLowestPrice(book.id)
   lowestMark = (lowestPrice == book.price) ? "●" : ""
-  
-
-  return sprintf("<tr class='%s'><td><a href='%s'>%s</a>" +
+  return sprintf("<tr class='%s'>" +
+                 "<td id='%d'>" +
+                 "<a href='%s'>%s</a>" +
                  "</td><td>%s</td><td>%s</td><td>%s</td>" + 
                  "<td>%5d</td><td>%5d</td><td>%3.1f%%</td>" + 
                  "<td>%s</td><td>%s</td></tr>",
-                   css,url,book.title,
+                   css,book.id,
+                   url,book.title,
                    book.timestamp,book.maker,book.release,
                    book.listPrice,book.price,book.priceOff,
                    lowestMark,book.sts)
@@ -74,6 +75,20 @@ get '/listLast1Day' do
   bookList.keys.sort.each{|t|
     book = bookList[t]
     next if book.timestamp < timeStampBefore1Day
+    @content = @content + book_to_tr(mList,book) + "\n"
+  }
+
+  erb :index
+  
+end
+
+get '/listLowPrice' do
+  @listType="最安値リスト"
+  mList = MasterBookList.new(settings.dbFile)
+  bookList = mList.getLowestPriceBookList(true)
+  @content = ''
+  bookList.keys.sort.each{|t|
+    book = bookList[t]
     @content = @content + book_to_tr(mList,book) + "\n"
   }
 

@@ -12,7 +12,8 @@ class BookInfo
     @listPrice = 0
     @price     = 0
     @priceOff  = 0.0
-    @sts = ""
+    @sts  = ""
+    @s_id = ""
     # 拡張属性。DBから取得時のみセットされる
     @id  = 0
   end
@@ -25,7 +26,8 @@ class BookInfo
     @listPrice = a[4] if a.length > 4
     @price     = a[5] if a.length > 4
     @priceOff  = a[6] if a.length > 6
-    @sts       = a[7] if a.length > 7
+    @s_id      = a[7] if a.length > 7
+    @sts       = a[8] if a.length > 8
   end
 
   def setHash(h)
@@ -38,6 +40,7 @@ class BookInfo
     @priceOff   = h["priceOff"] if h.has_key?("priceOff")
     @sts        = h["sts"] if h.has_key?("sts")
     @id         = h["id"]  if h.has_key?("id")
+    @s_id       = h["s_id"]  if h.has_key?("s_id")
   end
 
 
@@ -96,8 +99,8 @@ class BookInfo
   end
 
   def dump
-      return sprintf("[%s]\n    (%s)%s(%s)%5d->%5d(%3.1f%%off)(%s)",
-                     @title,@timestamp,@maker,@release,@listPrice,@price,@priceOff,@sts)
+      return sprintf("[%s](%s)\n    (%s)%s(%s)%5d->%5d(%3.1f%%off)(%s)",
+                     @title,@s_id,@timestamp,@maker,@release,@listPrice,@price,@priceOff,@sts)
 
   end
 
@@ -359,6 +362,23 @@ class MasterBookList
     bookIds.each{|id|
       book = self.getBook(id[0])
       bookList.add(book)
+    }
+    if(soutOff) then
+      return bookList.grep(sts: /^(?!s\.out)/)
+    else
+      return bookList
+    end
+  end
+
+  def getLowestPriceBookList(soutOff = true)
+    bookList = BookList.new
+    sql  = "select rowid from #{@titleList}"
+    bookIds = @db.execute(sql)
+    bookIds.each{|id|
+      book = self.getBook(id[0])
+      if(book.price <= getLowestPrice(id[0]) )then
+        bookList.add(book)
+      end
     }
     if(soutOff) then
       return bookList.grep(sts: /^(?!s\.out)/)
