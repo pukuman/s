@@ -1,4 +1,4 @@
-From ruby:2.4
+From ruby:2.6
 
 # RUN apt-get update && apt-get install locales locales-all
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
