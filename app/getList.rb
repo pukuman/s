@@ -69,6 +69,7 @@ urls.keys.each{|k|
 #      price   = getPrice(item.search('.item_price').search('.price').inner_text)
 #      listPrice = getPrice(item.search('.item_price').search('.price_teika').inner_text)
       price = 0
+      price_timesale = 0
       listPrice = 0
       prices = item.search('.item_price').search('.price_teika')
       prices.each{|t|
@@ -78,11 +79,25 @@ urls.keys.each{|k|
         when  /中古/
           price = getPrice(t)
         else
-          print t,"\n"
+          # セール時はコメントなしなので、ここにくるはず
+          price_timesale = getPrice(t)
         end
       }
+
+      # セール時の値段付け替え
+      if price == 0 and price_timesale > 0 then
+        price = price_timesale
+      end
+
+      if price <= 0 then
+        printf( "not add:price=zero? %s,%s\n",title,timestamp)
+        next
+      end
+
       priceOff = (listPrice > 0) ? (listPrice-price)*100.0/listPrice : 0.0
       book = BookInfo.new()
+
+
       book.setArray([title,timestamp,maker,release,listPrice,price,priceOff,s_id])
       books.add(book)
     }
